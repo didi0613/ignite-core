@@ -57,16 +57,22 @@ function igniteCore(type, task) {
         });
       } else if (task === "install") {
         taskLoader("1");
+        rl.close();
       } else if (task === "check-nodejs") {
         taskLoader("2");
+        rl.close();
       } else if (task === "check-electrode") {
         taskLoader("3", type);
+        rl.close();
       } else if (task === "generate-app") {
         taskLoader("4", type);
+        rl.close();
       } else if (task === "generate-component") {
         taskLoader("5", type);
+        rl.close();
       } else if (task === "add-component") {
         taskLoader("6", type);
+        rl.close();
       } else {
         console.log("Please provide a valid task");
       }

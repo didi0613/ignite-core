@@ -26,10 +26,7 @@ const Installation = function() {
             );
           } else if (localVersion < xclapLatestVersion) {
             console.log(
-              "Electrode Ignite is about to update the following modules globally:"
-            );
-            console.log(
-              `- xclap-cli (from version ${localVersion} to version ${xclapLatestVersion})`
+              `Electrode Ignite is about to update the following modules globally:\n- xclap-cli (from version ${localVersion} to version ${xclapLatestVersion})`
             );
 
             rl.question("Proceed? (Y/n)\n", answer => {
@@ -41,16 +38,23 @@ const Installation = function() {
             console.log(
               "Error when fetching Electrode packages. Exiting now ..."
             );
+            return process.exit(1);
           }
         })
         .catch(function(err) {
+          // xclap-cli is not get installed
           console.log(
             "Electrode Ignite is about to install the following modules globally:\n- xclap-cli\n"
           );
 
           rl.question("Proceed? (Y/n)\n", answer => {
             if (answer.toLowerCase() === "y") {
-              xsh.exec("npm install -g xclap-cli");
+              xsh.exec("npm install -g xclap-cli").catch(function(err) {
+                console.log(
+                  "Error when fetching xclap-cli packages. Exiting now ..."
+                );
+                return process.exit(1);
+              });
             }
           });
         });
