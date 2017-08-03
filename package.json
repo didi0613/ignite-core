@@ -1,0 +1,35 @@
+{
+  "name": "electrode-ignite",
+  "version": "1.0.0",
+  "description": "A bootstrap tool for installing, updating, and assiting development with Electrode platform.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "ignite": "bin/ignite.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/didi0613/electrode-ignite.git"
+  },
+  "keywords": [
+    "npm",
+    "scripts",
+    "ignite",
+    "javascript",
+    "tool",
+    "electrode"
+  ],
+  "author": "Sheng Di",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "chalk": "^2.0.1",
+    "xsh": "^0.3.0",
+    "yo": "^2.0.0"
+  },
+  "bugs": {
+    "url": "https://github.com/didi0613/electrode-ignite/issues"
+  },
+  "homepage": "https://github.com/didi0613/electrode-ignite#readme"
+}
