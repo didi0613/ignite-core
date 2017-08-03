@@ -1,17 +1,14 @@
 {
-  "name": "electrode-ignite",
+  "name": "ignite-core",
   "version": "1.0.0",
   "description": "A bootstrap tool for installing, updating, and assiting development with Electrode platform.",
-  "main": "index.js",
+  "main": "ignite.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "bin": {
-    "ignite": "bin/ignite.js"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/didi0613/electrode-ignite.git"
+    "url": "git+https://github.com/didi0613/ignite-core.git"
   },
   "keywords": [
     "npm",
@@ -29,7 +26,7 @@
     "yo": "^2.0.0"
   },
   "bugs": {
-    "url": "https://github.com/didi0613/electrode-ignite/issues"
+    "url": "https://github.com/didi0613/ignite-core/issues"
   },
-  "homepage": "https://github.com/didi0613/electrode-ignite#readme"
+  "homepage": "https://github.com/didi0613/ignite-core#readme"
 }
