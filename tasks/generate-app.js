@@ -2,6 +2,7 @@
 
 const checkNode = require("../tasks/check-node");
 const checkElectrode = require("../tasks/check-electrode");
+const errorHandler = require("../lib/error-handler");
 const xsh = require("xsh");
 
 const generateApp = function(type) {
@@ -9,15 +10,11 @@ const generateApp = function(type) {
   checkElectrode(type);
 
   if (type === "oss") {
-    xsh.exec("yo electrode").catch(function(err) {
-      console.log("Failed when generating your app by:", err);
-      return process.exit(1);
-    });
+    xsh.exec("yo electrode").catch(err => errorHandler(err));
   } else if (type === "wml") {
-    xsh.exec("yo @walmart/wml-electrode").catch(function(err) {
-      console.log("Failed when generating your app by:", err);
-      return process.exit(1);
-    });
+    xsh.exec("yo @walmart/wml-electrode").catch(err => errorHandler(err));
+  } else {
+    errorHandler("Please provide a valid electrode ignite name, for example: oss or wml.");
   }
 };
 

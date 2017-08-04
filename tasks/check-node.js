@@ -3,6 +3,7 @@
 const xsh = require("xsh");
 const logger = require("../lib/logger");
 const chalk = require("chalk");
+const errorHandler = require("../lib/error-handler");
 
 const checkNode = function() {
   xsh
@@ -22,17 +23,11 @@ const checkNode = function() {
               logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
               logger.log(chalk.green(`Your Node binary path is: ${nodePath}`));
             })
-            .catch(function(err) {
-              logger.log(chalk.red(`Fetching node path failed: ${err}`));
-            });
+            .catch(err => errorHandler(err, "Failed at: Fetching node path."));
         })
-        .catch(function(err) {
-          logger.log(chalk.red(`Fetching npm version failed: ${err}`));
-        });
+        .catch(err => errorHandler(err, "Failed at: Fetching npm version."));
     })
-    .catch(function(err) {
-      logger.log(chalk.red(`Fetching node version failed: ${err}`));
-    });
+    .catch(err => errorHandler(err, "Failed at: Fetching node version."));
 };
 
 module.exports = checkNode;

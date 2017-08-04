@@ -36,7 +36,6 @@ function igniteCore(type, task) {
     rl.close();
   } else if (task === "check-electrode") {
     taskLoader("3", type);
-    rl.close();
   } else if (task === "generate-app") {
     taskLoader("4", type);
     rl.close();
@@ -49,7 +48,7 @@ function igniteCore(type, task) {
   } else {
     errorHandler(
       "Please provide a valid task name. You can choose from: \n" +
-      "---------------------------------------------------------\n" +
+        "---------------------------------------------------------\n" +
         " * * * * * * * Electrode Ignite Menu * * * * * * * * * * \n" +
         "---------------------------------------------------------\n" +
         "- install\n" +

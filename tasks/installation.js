@@ -13,7 +13,7 @@ const rl = readline.createInterface({
 });
 
 const installXClapCLI = function() {
-  rl.question("Proceed? (y/n)", answer => {
+  rl.question("Proceed? (y/n) ", answer => {
     if (answer.toLowerCase() === "y") {
       xsh
         .exec("npm install -g xclap-cli")
