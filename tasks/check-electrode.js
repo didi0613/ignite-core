@@ -55,40 +55,47 @@ const checkXClap = new Promise((resolve, reject) => {
 });
 
 const checkElectrode = function(option) {
-  checkXClap.then(function(checkPassed) {
-    if (checkPassed) {
-      xsh
-        .exec(true, "npm show yo version")
-        .then(function(yoVersion) {
-          var generatorName = "";
-          yoVersion = yoVersion.stdout.slice(0, -1);
+  return new Promise((resolve, reject) => {
+    return checkXClap.then(function(checkPassed) {
+      if (checkPassed) {
+        return xsh
+          .exec(true, "npm show yo version")
+          .then(function(yoVersion) {
+            var generatorName = "";
+            yoVersion = yoVersion.stdout.slice(0, -1);
 
-          if (option === "wml") {
-            generatorName = "@walmart/generator-wml-electrode";
-          } else if (option === "oss") {
-            generatorName = "generator-electrode";
-          } else {
-            errorHandler("Please provide a valid electrode ignite name, for example: oss or wml.");
-          }
+            if (option === "wml") {
+              generatorName = "@walmart/generator-wml-electrode";
+            } else if (option === "oss") {
+              generatorName = "generator-electrode";
+            } else {
+              errorHandler(
+                "Please provide a valid electrode ignite name, for example: oss or wml."
+              );
+            }
 
-          xsh
-            .exec(true, `npm show ${generatorName} version`)
-            .then(function(generatorVersion) {
-              generatorVersion = generatorVersion.stdout.slice(0, -1);
-              logger.log(chalk.green(`Your yeoman version is: ${yoVersion}`));
-              logger.log(
-                chalk.green(
-                  `Your ${generatorName} version is: ${generatorVersion}`
+            return xsh
+              .exec(true, `npm show ${generatorName} version`)
+              .then(function(generatorVersion) {
+                generatorVersion = generatorVersion.stdout.slice(0, -1);
+                logger.log(chalk.green(`Your yeoman version is: ${yoVersion}`));
+                logger.log(
+                  chalk.green(
+                    `Your ${generatorName} version is: ${generatorVersion}`
+                  )
+                );
+                rl.pause();
+                resolve(true);
+              })
+              .catch(err =>
+                errorHandler(
+                  `Fetching ${generatorName} version failed: ${err}.`
                 )
               );
-              rl.close();
-            })
-            .catch(err =>
-              errorHandler(`Fetching ${generatorName} version failed: ${err}.`)
-            );
-        })
-        .catch(err => errorHandler(`Fetching node version failed: ${err}.`));
-    }
+          })
+          .catch(err => errorHandler(`Fetching node version failed: ${err}.`));
+      }
+    });
   });
 };
 
