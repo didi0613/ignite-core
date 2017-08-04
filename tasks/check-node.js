@@ -5,7 +5,7 @@ const logger = require("../lib/logger");
 const chalk = require("chalk");
 const errorHandler = require("../lib/error-handler");
 
-const checkNode = function() {
+const checkNode = function(option, type) {
   xsh
     .exec(true, "node -v")
     .then(function(nodeVersion) {
@@ -22,6 +22,8 @@ const checkNode = function() {
               logger.log(chalk.green(`Your Node version is: ${nodeVersion}`));
               logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
               logger.log(chalk.green(`Your Node binary path is: ${nodePath}`));
+
+              return process.exit(0);
             })
             .catch(err => errorHandler(err, "Failed at: Fetching node path."));
         })

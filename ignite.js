@@ -27,24 +27,19 @@ function igniteCore(type, task) {
 
     rl.question("Please select your option: ", answer => {
       taskLoader(answer, type);
-      rl.close();
     });
   } else if (task === "install") {
     taskLoader("1");
   } else if (task === "check-nodejs") {
     taskLoader("2");
-    rl.close();
   } else if (task === "check-electrode") {
     taskLoader("3", type);
   } else if (task === "generate-app") {
     taskLoader("4", type);
-    rl.close();
   } else if (task === "generate-component") {
     taskLoader("5", type);
-    rl.close();
   } else if (task === "add-component") {
     taskLoader("6", type);
-    rl.close();
   } else {
     errorHandler(
       "Please provide a valid task name. You can choose from: \n" +
