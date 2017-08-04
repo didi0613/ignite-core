@@ -84,7 +84,7 @@ const checkElectrode = function(option) {
                     `Your ${generatorName} version is: ${generatorVersion}`
                   )
                 );
-                rl.pause();
+                rl.close();
                 resolve(true);
               })
               .catch(err =>
