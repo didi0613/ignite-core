@@ -18,10 +18,9 @@ function igniteCore(type, task) {
         "---------------------------------------------------------\n" +
         "[1] Install tools for Electrode development\n" +
         "[2] Check your NodeJS and npm environment\n" +
-        "[3] Check Electrode generator and tools installed\n" +
-        "[4] Generate an Electrode application\n" +
-        "[5] Generate an Electrode component\n" +
-        "[6] Add a component to your existing component repo\n" +
+        "[3] Generate an Electrode application\n" +
+        "[4] Generate an Electrode component\n" +
+        "[5] Add a component to your existing component repo\n" +
         "---------------------------------------------------------\n"
     );
 
@@ -32,14 +31,12 @@ function igniteCore(type, task) {
     taskLoader("1");
   } else if (task === "check-nodejs") {
     taskLoader("2");
-  } else if (task === "check-electrode") {
-    taskLoader("3", type);
   } else if (task === "generate-app") {
-    taskLoader("4", type);
+    taskLoader("3", type);
   } else if (task === "generate-component") {
-    taskLoader("5", type);
+    taskLoader("4", type);
   } else if (task === "add-component") {
-    taskLoader("6", type);
+    taskLoader("5", type);
   } else {
     errorHandler(
       "Please provide a valid task name. You can choose from: \n" +
