@@ -68,7 +68,7 @@ const Installation = function() {
         if (version === latestversion) {
           logger.log(
             chalk.green(
-              "Congratulations, you've already installed the latest xclap-cli"
+              "Congratulations, you've already installed the latest xclap-cli globally."
             )
           );
           rl.close();
