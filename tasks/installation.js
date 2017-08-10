@@ -15,7 +15,7 @@ const rl = readline.createInterface({
 const installXClapCLI = function() {
   rl.question("Proceed? (y/n) ", answer => {
     if (answer.toLowerCase() === "y") {
-      xsh
+      return xsh
         .exec("npm install -g xclap-cli")
         .then(function() {
           logger.log(
@@ -30,37 +30,48 @@ const installXClapCLI = function() {
   });
 };
 
-const checkXClapCLI = new Promise((resolve, reject) => {
-  let grepCmd = "grep";
-  if(process.platform.startsWith("win")) {
-    grepCmd = "findstr";
-  };
+const checkXClapCLI = function() {
+  return new Promise((resolve, reject) => {
+    return xsh
+      .exec(true, `npm ls -g -j --depth=0 xclap-cli`)
+      .then(function(ret) {
+        resolve(JSON.parse(ret.stdout).dependencies["xclap-cli"].version);
+      })
+      .catch(function() {
+        resolve();
+      });
+  });
+};
 
-  xsh
-    .exec(true, `npm list -g --depth=0 | ${grepCmd} xclap-cli`)
-    .then(function(version) {
-      const start = version.stdout.indexOf("xclap-cli") + 10;
-      const end = version.stdout.indexOf("\n");
-      resolve(version.stdout.substr(start, end).slice(0, -1));
-    })
-    .catch(function() {
-      resolve();
-    });
-});
+const checkXClapCLILatestVersion = function() {
+  return new Promise((resolve, reject) => {
+    return xsh
+      .exec(true, "npm show xclap-cli version")
+      .then(function(version) {
+        resolve(version.stdout.slice(0, -1));
+      })
+      .catch(err =>
+        errorHandler(err, "Failed at showing the latest xclap-cli version.")
+      );
+  });
+};
 
-const checkXClapCLILatestVersion = new Promise((resolve, reject) => {
-  xsh
-    .exec(true, "npm show xclap-cli version")
-    .then(function(version) {
-      resolve(version.stdout.slice(0, -1));
-    })
-    .catch(err =>
-      errorHandler(err, "Failed at showing the latest xclap-cli version.")
-    );
-});
+const cmp = function(a, b) {
+  var pa = a.split(".");
+  var pb = b.split(".");
+  for (var i = 0; i < 3; i++) {
+    var na = Number(pa[i]);
+    var nb = Number(pb[i]);
+    if (na > nb) return 1;
+    if (nb > na) return -1;
+    if (!isNaN(na) && isNaN(nb)) return 1;
+    if (isNaN(na) && !isNaN(nb)) return -1;
+  }
+  return 0;
+};
 
 const Installation = function() {
-  checkXClapCLI.then(function(version) {
+  checkXClapCLI().then(function(version) {
     if (!version) {
       /* Case 1: xclap-cli does not installed globally */
       console.log(
@@ -68,16 +79,16 @@ const Installation = function() {
       );
       installXClapCLI();
     } else {
-      checkXClapCLILatestVersion.then(function(latestversion) {
+      checkXClapCLILatestVersion().then(function(latestversion) {
         /* Case 2: xclap-cli already got the latest version */
-        if (version === latestversion) {
+        if (cmp(version, latestversion) === 0) {
           logger.log(
             chalk.green(
-              "Congratulations, you've already installed the latest xclap-cli globally."
+              `Congratulations, you've already installed the latest xclap-cli@${latestversion} globally.`
             )
           );
           rl.close();
-        } else if (version < latestversion) {
+        } else if (cmp(version, latestversion) < 0) {
           /* Case 3: xclap-cli version is out-dated */
           console.log(
             `Electrode Ignite is about to update the following modules globally:\n- xclap-cli (from version ${version} to version ${latestversion})`
