@@ -31,8 +31,13 @@ const installXClapCLI = function() {
 };
 
 const checkXClapCLI = new Promise((resolve, reject) => {
+  let grepCmd = "grep";
+  if(process.platform.startsWith("win")) {
+    grepCmd = "findstr";
+  };
+
   xsh
-    .exec(true, "npm list -g --depth=0 | grep xclap-cli")
+    .exec(true, `npm list -g --depth=0 | ${grepCmd} xclap-cli`)
     .then(function(version) {
       const start = version.stdout.indexOf("xclap-cli") + 10;
       const end = version.stdout.indexOf("\n");

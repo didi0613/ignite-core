@@ -10,10 +10,29 @@ const Generator = function(type, generator) {
     .then(function(nodeCheckPassed) {
       if (nodeCheckPassed) {
         const yoPath = __dirname + "/../node_modules/.bin/yo";
+        let generatorPath = "";
+        let child = "";
 
-        const child = spawn(yoPath, [`${generator}`], {
-          stdio: "inherit"
-        });
+        if(generator === "electrode") {
+          generatorPath = __dirname + "/../node_modules/generator-electrode/generators/app/index.js";
+        } else if(generator === "electrode:component") {
+          generatorPath = __dirname + "/../node_modules/generator-electrode/component/index.js"
+        } else if(generator === "electrode:component-add") {
+          generatorPath = __dirname + "/../node_modules/generator-electrode/component-add/index.js"
+        }
+
+        if(process.platform.startsWith("win")) {
+          yoPath = yoPath.replace(/\\/g,"/");
+          generatorPath = generatorPath.replace(/\\/g,"/");
+          child = spawn("cmd", [`${yoPath} ${generatorPath}`], {
+            stdio: "inherit"
+          });
+        } else {
+          child = spawn(yoPath, [`${generatorPath}`], {
+            stdio: "inherit"
+          });
+        }
+
         child.on("error", err =>
           errorHandler(err, `Failed at: Running ${generator} generator.`)
         );

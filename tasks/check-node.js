@@ -22,18 +22,37 @@ const checkNode = function() {
           .exec(true, "npm -v")
           .then(function(npmVersion) {
             npmVersion = npmVersion.stdout.slice(0, -1);
-            return xsh
-              .exec(true, "which node")
-              .then(function(nodePath) {
-                nodePath = nodePath.stdout.slice(0, -1);
 
-                logger.log(chalk.green(`Your Node version is: ${nodeVersion}`));
-                logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
-                logger.log(chalk.green(`Your Node binary path is: ${nodePath}`));
-                rl.close();
-                resolve(true);
-              })
-              .catch(err => errorHandler(err, "Failed at: Fetching node path."));
+            if (process.platform.startsWith("win")) {
+              logger.log(chalk.green(`Your Node version is: ${nodeVersion}`));
+              logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
+              logger.log(
+                chalk.green(
+                  `Your Node binary path is: ${process.env.NODE_PATH}`
+                )
+              );
+              rl.close();
+              resolve(true);
+            } else {
+              return xsh
+                .exec(true, "which node")
+                .then(function(nodePath) {
+                  nodePath = nodePath.stdout.slice(0, -1);
+
+                  logger.log(
+                    chalk.green(`Your Node version is: ${nodeVersion}`)
+                  );
+                  logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
+                  logger.log(
+                    chalk.green(`Your Node binary path is: ${nodePath}`)
+                  );
+                  rl.close();
+                  resolve(true);
+                })
+                .catch(err =>
+                  errorHandler(err, "Failed at: Fetching node path.")
+                );
+            }
           })
           .catch(err => errorHandler(err, "Failed at: Fetching npm version."));
       })
