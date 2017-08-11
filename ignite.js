@@ -24,13 +24,14 @@ function igniteCore(type, task) {
         "[3] Generate an Electrode application\n" +
         "[4] Generate an Electrode component\n" +
         "[5] Add a component to your existing component repo\n" +
+        "[6] Electrode official documenations\n" +
         "---------------------------------------------------------\n"
     );
     rl.question("Please select your option: ", answer => {
       option = answer;
 
       // Invalid Electrode Option will re-trigger the menu
-      while (option < 1 || option > 5) {
+      while (option < 1 || option > 6) {
         logger.log(chalk.red("Please provide a valid option between 1 to 5."));
         igniteCore(type);
         break;
@@ -48,6 +49,8 @@ function igniteCore(type, task) {
     taskLoader("4", type);
   } else if (task === "add-component") {
     taskLoader("5", type);
+  } else if (task === "docs") {
+    taskLoader("6", type);
   } else {
     errorHandler("Please provide a valid task name.");
   }

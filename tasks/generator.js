@@ -9,26 +9,18 @@ const Generator = function(type, generator) {
   checkNode()
     .then(function(nodeCheckPassed) {
       if (nodeCheckPassed) {
-        const yoPath = __dirname + "/../node_modules/.bin/yo";
+        let yoPath = __dirname + "/../node_modules/.bin/yo";
         let generatorPath = "";
         let child = "";
 
-        if(generator === "electrode") {
-          generatorPath = __dirname + "/../node_modules/generator-electrode/generators/app/index.js";
-        } else if(generator === "electrode:component") {
-          generatorPath = __dirname + "/../node_modules/generator-electrode/component/index.js"
-        } else if(generator === "electrode:component-add") {
-          generatorPath = __dirname + "/../node_modules/generator-electrode/component-add/index.js"
-        }
-
         if(process.platform.startsWith("win")) {
-          yoPath = yoPath.replace(/\\/g,"/");
-          generatorPath = generatorPath.replace(/\\/g,"/");
-          child = spawn("cmd", [`${yoPath} ${generatorPath}`], {
+          yoPath = yoPath.replace(/\//g, "\\");
+          generatorPath = generatorPath.replace(/\//g,"\\");
+          child = spawn("cmd", ["/c", `${yoPath} ${generator}`], {
             stdio: "inherit"
           });
         } else {
-          child = spawn(yoPath, [`${generatorPath}`], {
+          child = spawn(yoPath, [generator], {
             stdio: "inherit"
           });
         }

@@ -22,9 +22,10 @@
   "license": "Apache-2.0",
   "dependencies": {
     "chalk": "^2.0.1",
+    "generator-electrode": "^3.2.0",
+    "opn": "^5.1.0",
     "xsh": "^0.3.0",
-    "yo": "^2.0.0",
-    "generator-electrode": "^3.2.0"
+    "yo": "^2.0.0"
   },
   "bugs": {
     "url": "https://github.com/didi0613/ignite-core/issues"
