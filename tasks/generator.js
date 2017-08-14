@@ -15,14 +15,14 @@ const Generator = function(type, generator) {
         let child = "";
 
         if(process.platform.startsWith("win")) {
-          yoPath = Path.join(__dirname, '..', 'node_modules', '.bin', 'yo.cmd');
+          yoPath = Path.join(__dirname, '..', '..', '.bin', 'yo.cmd');
           yoPath = yoPath.replace(/\//g, "\\");
-          generatorPath = generatorPath.replace(/\//g,"\\");
+          generator = generator.replace(/\//g,"\\");
           child = spawn("cmd", ["/c", `${yoPath} ${generator}`], {
             stdio: "inherit"
           });
         } else {
-          yoPath = Path.join(__dirname, '..', 'node_modules', '.bin', 'yo');
+          yoPath = Path.join(__dirname, '..', '..', '.bin', 'yo');
           child = spawn(yoPath, [generator], {
             stdio: "inherit"
           });
