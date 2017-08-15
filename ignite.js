@@ -19,12 +19,12 @@ function igniteCore(type, task) {
       "---------------------------------------------------------\n" +
         " * * * * * * * Electrode Ignite Menu * * * * * * * * * * \n" +
         "---------------------------------------------------------\n" +
-        "[1] Install tools for Electrode development\n" +
-        "[2] Check your NodeJS and npm environment\n" +
-        "[3] Generate an Electrode application\n" +
-        "[4] Generate an Electrode component\n" +
-        "[5] Add a component to your existing component repo\n" +
-        "[6] Electrode official documenations\n" +
+        "[1] Install tools for Electrode development (install)\n" +
+        "[2] Check your NodeJS and npm environment (check-nodejs)\n" +
+        "[3] Generate an Electrode application (generate-app)\n" +
+        "[4] Generate an Electrode component (generate-component)\n" +
+        "[5] Add a component to your existing component repo (add-component)\n" +
+        "[6] Electrode official documenations (docs)\n" +
         "---------------------------------------------------------\n"
     );
     rl.question("Please select your option: ", answer => {

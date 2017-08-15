@@ -6,29 +6,27 @@ const logger = require("../lib/logger");
 const chalk = require("chalk");
 
 const electrodeDocs = function(type) {
-  var chromeName = process.platform.match(/^win/) ? "chrome" : "google chrome";
-
+  var gitbookURL = "";
   if (type === "oss") {
-    opn("https://docs.electrode.io/", { app: chromeName });
-    logger.log(
-      chalk.green(
-        "You've successfully opened the oss gitbook. Please checkout your browser."
-      )
-    );
-    return process.exit(0);
+    gitbookURL = "https://docs.electrode.io/";
   } else if (type === "wml") {
-    opn("http://gitbook.qa.walmart.com/books/electrode-dev-guide/", {
-      app: chromeName
-    });
-    logger.log(
-      chalk.green(
-        "You've successfully opened the wml internal gitbook. Please checkout your browser."
-      )
-    );
-    return process.exit(0);
+    gitbookURL = "http://gitbook.qa.walmart.com/books/electrode-dev-guide/";
   } else {
     errorHandler("Please provide a valid type");
   }
+
+  opn(gitbookURL)
+    .then(function() {
+      logger.log(
+        chalk.green(
+          "You've successfully opened the oss gitbook. Please checkout your browser."
+        )
+      );
+      return process.exit(0);
+    })
+    .catch(function(e) {
+      errorHandler("Failed at open a new browser on windows", e);
+    });
 };
 
 module.exports = electrodeDocs;
