@@ -15,18 +15,32 @@ const electrodeDocs = function(type) {
     errorHandler("Please provide a valid type");
   }
 
-  opn(gitbookURL)
-    .then(function() {
+  if (process.platform.startsWith("win")) {
+    opn(gitbookURL)
+      .then(function() {
+        logger.log(
+          chalk.green(
+            "You've successfully opened the oss gitbook. Please checkout your browser."
+          )
+        );
+        return process.exit(0);
+      })
+      .catch(function(e) {
+        errorHandler("Failed at open a new browser on windows", e);
+      });
+  } else {
+    try {
+      opn(gitbookURL);
       logger.log(
         chalk.green(
           "You've successfully opened the oss gitbook. Please checkout your browser."
         )
       );
       return process.exit(0);
-    })
-    .catch(function(e) {
+    } catch (e) {
       errorHandler("Failed at open a new browser on windows", e);
-    });
+    }
+  }
 };
 
 module.exports = electrodeDocs;
