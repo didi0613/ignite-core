@@ -21,38 +21,27 @@ const checkNode = function() {
         return xsh
           .exec(true, "npm -v")
           .then(function(npmVersion) {
+            const checkNodePath = process.platform.startsWith("win")
+              ? "where node"
+              : "which node";
             npmVersion = npmVersion.stdout.slice(0, -1);
 
-            if (process.platform.startsWith("win")) {
-              logger.log(chalk.green(`Your Node version is: ${nodeVersion}`));
-              logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
-              logger.log(
-                chalk.green(
-                  `Your Node binary path is: ${process.env.NODE_PATH}`
-                )
-              );
-              rl.close();
-              resolve(true);
-            } else {
-              return xsh
-                .exec(true, "which node")
-                .then(function(nodePath) {
-                  nodePath = nodePath.stdout.slice(0, -1);
+            return xsh
+              .exec(true, checkNodePath)
+              .then(function(nodePath) {
+                nodePath = nodePath.stdout.slice(0, -1);
 
-                  logger.log(
-                    chalk.green(`Your Node version is: ${nodeVersion}`)
-                  );
-                  logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
-                  logger.log(
-                    chalk.green(`Your Node binary path is: ${nodePath}`)
-                  );
-                  rl.close();
-                  resolve(true);
-                })
-                .catch(err =>
-                  errorHandler(err, "Failed at: Fetching node path.")
+                logger.log(chalk.green(`Your Node version is: ${nodeVersion}`));
+                logger.log(chalk.green(`Your npm version is: ${npmVersion}`));
+                logger.log(
+                  chalk.green(`Your Node binary path is: ${nodePath}`)
                 );
-            }
+                rl.close();
+                resolve(true);
+              })
+              .catch(err =>
+                errorHandler(err, "Failed at: Fetching node path.")
+              );
           })
           .catch(err => errorHandler(err, "Failed at: Fetching npm version."));
       })
